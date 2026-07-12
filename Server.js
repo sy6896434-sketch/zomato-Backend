@@ -1,7 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const db = require('./Confiq/db');
+
 const userRoutes = require('./Routes/userRoutes');
 const productRoutes = require('./Routes/productRoutes');
 const categoryRoutes = require('./Routes/categoryRoutes');
@@ -9,43 +12,48 @@ const vendorRoutes = require('./Routes/vendorRoutes');
 const orderRoutes = require('./Routes/orderRoutes');
 
 const app = express();
-const PORT = 8001;
 
+// ✅ Railway port support
+const PORT = process.env.PORT || 8001;
+
+// ✅ Middlewares
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// ✅ Routes
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/vendors', vendorRoutes);
 app.use('/api/orders', orderRoutes);
 
+// ✅ Health check route
 app.get('/', async (req, res) => {
   try {
     await db.authenticate();
-    res.json({ message: 'Database connected successfully' });
+    res.json({ message: '✅ Database connected successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-
-
+// ✅ Start server
 async function startServer() {
   try {
     await db.authenticate();
-    console.log('Database connected successfully');
+    console.log('✅ Database connected successfully');
 
     await db.sync({ alter: true });
-    console.log('Database synchronized');
+    console.log('✅ Database synchronized');
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
+
   } catch (error) {
-    console.error('Unable to start server:', error);
+    console.error('❌ Unable to start server:', error);
     process.exit(1);
   }
 }
