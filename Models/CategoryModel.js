@@ -1,27 +1,23 @@
-const db = require('../Confiq/db');
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
+const db = require("../Confiq/db");
 
-const Category = db.define('Category', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+const Category = db.define(
+  "Category",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  image: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-  active: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-  },
-}, {
-  timestamps: true,
-});
+  {
+    tableName: "categories",  // ✅ IMPORTANT
+    freezeTableName: true,    // ✅ IMPORTANT
+  }
+);
 
 module.exports = Category;
