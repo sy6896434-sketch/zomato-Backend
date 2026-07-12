@@ -45,7 +45,7 @@ async function startServer() {
     await db.authenticate();
     console.log('✅ Database connected successfully');
 
-    await db.sync({ alter: true });
+    await db.sync();
     console.log('✅ Database synchronized');
 
     app.listen(PORT, () => {
