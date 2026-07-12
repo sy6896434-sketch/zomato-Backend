@@ -15,8 +15,8 @@ const Category = db.define(
     },
   },
   {
-    tableName: "categories",  // ✅ IMPORTANT
-    freezeTableName: true,    // ✅ IMPORTANT
+    tableName: "categories",
+    freezeTableName: true,
   }
 );
 
